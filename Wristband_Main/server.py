@@ -10,7 +10,7 @@ def create_database():
     c = conn.cursor()
     
     c.execute('''CREATE TABLE IF NOT EXISTS participants (
-                tag_id INTEGER PRIMARY KEY,
+                tag_id TEXT PRIMARY KEY,
                 registered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 flag1 BOOLEAN DEFAULT FALSE,
                 flag2 BOOLEAN DEFAULT FALSE,
