@@ -1,0 +1,21 @@
+meta {
+  name: Email
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:5000/email/:tag_id
+  body: json
+  auth: none
+}
+
+params:path {
+  tag_id: 12345
+}
+
+body:json {
+  {
+    "email": "test@example.com"
+  }
+}

@@ -1,0 +1,16 @@
+meta {
+  name: Flag
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:5000/flag/:tag_id/:station_number
+  body: none
+  auth: none
+}
+
+params:path {
+  station_number: 1
+  tag_id: 12345
+}
