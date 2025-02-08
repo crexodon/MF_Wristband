@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
 import sqlite3
 from datetime import datetime
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 def create_database():
     """Initialize the SQLite database with required tables"""
@@ -64,7 +66,7 @@ def collect_flag(tag_id, station):
         
         if c.rowcount == 0:
             return jsonify({'error': 'Participant not found'}), 404
-            
+
         conn.commit()
         return jsonify({
             'status': 'success',
@@ -84,18 +86,24 @@ def submit_email(tag_id):
     c = conn.cursor()
     
     try:
+        finishTime = datetime.now().isoformat()
+
         c.execute('''UPDATE participants 
                      SET email=?, finish_time=?
-                     WHERE tag_id=?''',
-                 (data['email'], datetime.now().isoformat(), tag_id))
-        
-        if c.rowcount == 0:
-            return jsonify({'error': 'Participant not found'}), 404
-            
+                     WHERE tag_id=?
+                     RETURNING registered_at''',
+                 (data['email'], finishTime, tag_id))
+
+        participant = c.fetchone()
+
+        if participant is None:
+            return jsonify({'status': 'error', 'error': 'Participant not found'}), 404
+
         conn.commit()
         return jsonify({
             'status': 'success',
-            'timestamp': datetime.now().isoformat()
+            'registered_at': participant[0],
+            'finished_at': finishTime,
         })
     finally:
         conn.close()
