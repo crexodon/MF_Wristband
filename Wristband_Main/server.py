@@ -63,7 +63,7 @@ def collect_flag(tag_id, station):
     
     station_number = station_map[station]
     flag_column = f'flag{station_number}'
-    
+
     conn = sqlite3.connect('rally.db')
     c = conn.cursor()
     
@@ -84,7 +84,7 @@ def collect_flag(tag_id, station):
     finally:
         conn.close()
 
-@app.route('/email/<int:tag_id>', methods=['POST'])
+@app.route('/email/<string:tag_id>', methods=['POST'])
 def submit_email(tag_id):
     """Endpoint for submitting email address"""
     data = request.json
