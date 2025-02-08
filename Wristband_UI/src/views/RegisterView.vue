@@ -105,7 +105,7 @@ const onRegister = async (e: Event) => {
 
     toast.show({
       headline: 'E-Mail erfolgreich hinterlegt',
-      description: `Du hast ${hours}h ${minutes}m ${seconds}s gebraucht um alle Station abzuschließen.`,
+      description: `Du hast ${hours}h ${minutes}m ${seconds}s gebraucht um alle Stationen abzuschließen.`,
       duration: 10000,
     });
     participation.value = false;
@@ -198,8 +198,8 @@ const onRegister = async (e: Event) => {
         <p>Die Teilnehmer haben das Recht auf Auskunft, Berichtigung und Löschung ihrer Daten.</p>
         <p>Verantwortlich für die Datenverarbeitung ist experimenta gGmbH.</p>
         <p>
-          Bei Fragen zum Datenschutz kann sich der Teilnehmer per E-Mail an
-          datenschutz@experimenta.science.
+          Bei Fragen zum Datenschutz können sich Teilnehmende per E-Mail an
+          <a href="mailto:datenschutz@experimenta.science">datenschutz@experimenta.science</a> wenden.
         </p>
       </div>
     </div>
