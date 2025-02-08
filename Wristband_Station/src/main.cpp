@@ -54,19 +54,20 @@ int sendTagNumber(String tag_id) {
   WiFiClient client;
   HTTPClient http;
   
-  JSONVar jsonObject;
-  jsonObject["tag_id"] = tag_id;
+  //JSONVar jsonObject;
+  //jsonObject["tag_id"] = tag_id;
   
-  String jsonString = JSON.stringify(jsonObject);
+  //String jsonString = JSON.stringify(jsonObject);
 
-  String connection = rest_server + "/register";
+  String connection = rest_server + "/flag/" + tag_id + flag_url;
 
   Serial.println("Connection Name: " + connection);
   
   http.begin(client, connection);
-  http.addHeader("Content-Type", "application/json");
+  //http.addHeader("Content-Type", "application/json");
   
-  int httpResponseCode = http.POST("{\"tag_id\":tag_id}");
+  //int httpResponseCode = http.POST(jsonString);
+  int httpResponseCode = http.POST("");
   
   Serial.print("HTTP Response Code: ");
   Serial.println(httpResponseCode);
@@ -85,7 +86,9 @@ void setup() {
 	mfrc522.PCD_Init();
 	
   FastLED.addLeds<WS2812, DATA_PIN, RGB>(leds, NUM_LEDS);
-	
+
+  WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE, INADDR_NONE);
+  WiFi.setHostname(hostname);
   WiFi.begin(ssid, pass);
   Serial.println("Connecting to WiFi");
   while(WiFi.status() != WL_CONNECTED) {
@@ -137,6 +140,7 @@ void loop() {
         Serial.println("Failed to send tag number with code: " + ret);
         leds[0] = CRGB::Red;
         FastLED.show();
+        delay(500);
     }
     
     // Stop NFC readout
