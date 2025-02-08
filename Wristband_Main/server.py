@@ -48,13 +48,22 @@ def register_participant():
     finally:
         conn.close()
 
-@app.route('/flag/<int:tag_id>/<int:station>', methods=['POST'])
+@app.route('/flag/<string:tag_id>/<string:station>', methods=['POST'])
 def collect_flag(tag_id, station):
     """Endpoint for collecting a flag at a station"""
-    if station not in [1, 2, 3]:
+    # Map station parameter to numeric value
+    station_map = {
+        'flag1': 1,
+        'flag2': 2,
+        'flag3': 3
+    }
+
+    if station not in station_map:
         return jsonify({'error': 'Invalid station number'}), 400
     
-    flag_column = f'flag{station}'
+    station_number = station_map[station]
+    flag_column = f'flag{station_number}'
+    
     conn = sqlite3.connect('rally.db')
     c = conn.cursor()
     
